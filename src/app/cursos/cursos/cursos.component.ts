@@ -9,11 +9,11 @@ import { Curso } from 'src/app/cursos/model/curso';
   styleUrls: ['./cursos.component.scss']
 })
 export class CursosComponent implements OnInit {
-  cursos: Observable<Curso[]>;
+  cursos$: Observable<Curso[]>;
   displayedColumns = ['name', 'category'];
 
   constructor(private cursosService: CursosService) {
-    this.cursos = this.cursosService.list();
+    this.cursos$ = this.cursosService.list();
 
   }
 
