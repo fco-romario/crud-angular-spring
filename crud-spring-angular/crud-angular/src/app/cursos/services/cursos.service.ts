@@ -7,12 +7,12 @@ import { Observable, delay, first, take, tap } from 'rxjs';
   providedIn: 'root'
 })
 export class CursosService {
-  private readonly api = '/assets/cursos.json'
+  private readonly API = 'api/cursos'
 
   constructor(private http: HttpClient) { }
 
   list(): Observable<Curso[]> {
-    return this.http.get<Curso[]>(this.api)
+    return this.http.get<Curso[]>(this.API)
       .pipe(
         first(),
         delay(800),
