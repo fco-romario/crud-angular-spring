@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-curso-form',
@@ -7,9 +8,23 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CursoFormComponent implements OnInit {
 
-  constructor() { }
+  form: FormGroup;
+
+  constructor(private fb: FormBuilder) {
+    this.form = this.fb.group({
+      name: [null],
+      category: [null],
+    })
+   }
 
   ngOnInit(): void {
   }
 
+  onSubmit(): void {
+
+  }
+
+  onCancel(): void {
+
+  }
 }
