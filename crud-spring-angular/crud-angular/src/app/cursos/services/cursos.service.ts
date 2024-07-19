@@ -20,7 +20,7 @@ export class CursosService {
       )
   }
 
-  save(curso: Curso): Observable<Curso> {
+  save(curso: Partial<Curso>): Observable<Curso> {
     return this.http.post<Curso>(this.API, curso)
   }
 }

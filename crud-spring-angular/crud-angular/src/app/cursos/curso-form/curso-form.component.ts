@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, NonNullableFormBuilder } from '@angular/forms';
 import { CursosService } from '../services/cursos.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Location } from '@angular/common';
@@ -11,19 +11,17 @@ import { Location } from '@angular/common';
 })
 export class CursoFormComponent implements OnInit {
 
-  form: FormGroup;
+  form = this.fb.group({
+    name: [''],
+    category: [''],
+  })
 
   constructor(
-    private fb: FormBuilder,
+    private fb: NonNullableFormBuilder,
     private service: CursosService,
     private snackBar: MatSnackBar,
     private location: Location,
-  ) {
-    this.form = this.fb.group({
-      name: [null],
-      category: [null],
-    })
-   }
+  ) {}
 
   ngOnInit(): void {
   }
