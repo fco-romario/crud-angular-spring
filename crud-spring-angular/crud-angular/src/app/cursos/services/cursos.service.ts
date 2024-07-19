@@ -19,4 +19,8 @@ export class CursosService {
         tap(cursos => console.log(cursos))
       )
   }
+
+  save(curso: Curso): Observable<Curso> {
+    return this.http.post<Curso>(this.API, curso)
+  }
 }
