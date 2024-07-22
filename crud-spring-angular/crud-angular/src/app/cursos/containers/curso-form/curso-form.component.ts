@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, NonNullableFormBuilder } from '@angular/forms';
-import { CursosService } from '../services/cursos.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Location } from '@angular/common';
+import { CursosService } from '../../services/cursos.service';
 
 @Component({
   selector: 'app-curso-form',

@@ -1,6 +1,5 @@
-import { ActivatedRoute, Router } from '@angular/router';
-import { Component, Input, OnInit } from '@angular/core';
-import { Curso } from '../model/curso';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Curso } from '../../model/curso';
 
 @Component({
   selector: 'app-curso-lista',
@@ -10,19 +9,18 @@ import { Curso } from '../model/curso';
 export class CursoListaComponent implements OnInit {
 
   @Input() cursos: Curso[] = [];
-  
+  @Output() add = new EventEmitter(false);
+
   readonly displayedColumns = ['name', 'category', 'actions'];
 
   constructor(
-    private router: Router,
-    private route: ActivatedRoute
   ) { }
 
   ngOnInit(): void {
   }
 
   onAdd(): void {
-    this.router.navigate(['new'], { relativeTo: this.route})
+    this.add.emit(true);
   }
 
 }

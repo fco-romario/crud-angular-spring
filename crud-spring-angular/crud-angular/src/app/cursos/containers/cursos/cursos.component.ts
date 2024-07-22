@@ -1,4 +1,4 @@
-import { CursosService } from './../services/cursos.service';
+import { CursosService } from '../../services/cursos.service';
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
