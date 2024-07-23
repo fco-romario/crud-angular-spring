@@ -38,4 +38,8 @@ export class CursosService {
   atualizar(curso: Partial<Curso>) {
     return this.http.put<Curso>(`${this.API}/${curso._id}`, curso).pipe(first())
   }
+
+  remover(id: string) {
+    return this.http.delete(`${this.API}/${id}`).pipe(first())
+  }
 }
