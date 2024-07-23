@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -42,5 +43,17 @@ public class CursoController {
 		return cursoRepository.save(curso);
 	}
 	
+	@PutMapping("{id}")
+	public ResponseEntity<Curso> atualizar(@PathVariable() Long id, @RequestBody Curso curso){
+		return cursoRepository.findById(id)
+				.map(cursoParaAtualizar -> {
+					cursoParaAtualizar.setName(curso.getName());
+					cursoParaAtualizar.setCategory(curso.getCategory());
+					Curso cursoAtualizado = cursoRepository.save(cursoParaAtualizar);
+					
+					return ResponseEntity.ok().body(cursoAtualizado);
+				})
+				.orElse(ResponseEntity.notFound().build());
+	}
 	
 }
