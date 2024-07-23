@@ -5,9 +5,9 @@
     <app-curso-lista
       *ngIf="cursos$ | async as cursos; else exibeSpinner"
       [cursos]="cursos"
-      (add)="onAdd()"
-      (edit)="onEditar($event)"
-      (remover)="onRemover($event)"
+      (add)="aoAdd()"
+      (edit)="aoEditar($event)"
+      (remover)="aoRemover($event)"
     ></app-curso-lista>
 
     <ng-template #exibeSpinner>

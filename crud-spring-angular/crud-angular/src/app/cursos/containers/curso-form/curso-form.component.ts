@@ -38,7 +38,7 @@ export class CursoFormComponent implements OnInit {
 
   }
 
-  onSubmit(): void {
+  aoSubmeter(): void {
     this.service.salvar(this.form.value)
       .subscribe(resposta => {
         this.onSucesso();
@@ -48,13 +48,13 @@ export class CursoFormComponent implements OnInit {
     });
   }
 
-  onCancel(): void {
+  aoCancelar(): void {
     this.location.back();
   }
 
   onSucesso(): void {
     this.snackBar.open('Curso salvo com sucesso!', '', { duration: 5000});
-    this.onCancel()
+    this.aoCancelar()
   }
 
   onErro(): void {

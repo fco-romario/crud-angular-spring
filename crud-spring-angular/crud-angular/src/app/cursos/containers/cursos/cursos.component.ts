@@ -46,15 +46,15 @@ export class CursosComponent implements OnInit {
     )
   }
 
-  onAdd(): void {
+  aoAdd(): void {
     this.router.navigate(['new'], { relativeTo: this.route})
   }
 
-  onEditar(curso: Curso): void {
+  aoEditar(curso: Curso): void {
     this.router.navigate(['edit', curso._id], { relativeTo: this.route})
   }
 
-  onRemover(curso: Curso): void {
+  aoRemover(curso: Curso): void {
     const dialogRef = this.dialog.open(ConfirmacaoDialoagComponent, {
       data: 'Tem certeza que deseja remover esse curso?'
     });

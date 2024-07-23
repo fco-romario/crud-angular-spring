@@ -21,15 +21,15 @@ export class CursoListaComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  onAdd(): void {
+  aoAdd(): void {
     this.add.emit(true);
   }
 
-  onEditar(curso: Curso): void {
+  aoEditar(curso: Curso): void {
     this.edit.emit(curso);
   }
 
-  onRemover(curso: Curso): void {
+  aoRemover(curso: Curso): void {
     this.remover.emit(curso);
   }
 
