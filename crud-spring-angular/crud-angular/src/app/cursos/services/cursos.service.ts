@@ -15,8 +15,8 @@ export class CursosService {
     return this.http.get<Curso[]>(this.API)
       .pipe(
         first(),
-        delay(800),
-        tap(cursos => console.log(cursos))
+        //delay(800),
+        //tap(cursos => console.log(cursos))
       )
   }
 
@@ -25,6 +25,17 @@ export class CursosService {
   }
 
   salvar(curso: Partial<Curso>): Observable<Curso> {
+    if(curso._id) {
+      return this.atualizar(curso);
+    }
+    return this.criar(curso);
+  }
+
+  criar(curso: Partial<Curso>) {
     return this.http.post<Curso>(this.API, curso)
+  }
+
+  atualizar(curso: Partial<Curso>) {
+    return this.http.put<Curso>(`${this.API}/${curso._id}`, curso).pipe(first())
   }
 }
