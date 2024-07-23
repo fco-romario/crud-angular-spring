@@ -29,7 +29,7 @@ public class CursoController {
 	}
 	
 	@GetMapping("{id}")
-	public ResponseEntity<Curso> findById(@PathVariable Long id) {
+	public ResponseEntity<Curso> buscarPorId(@PathVariable Long id) {
 		return cursoRepository.findById(id)
 				.map(curso -> ResponseEntity.ok().body(curso))
 				.orElse(ResponseEntity.notFound().build());

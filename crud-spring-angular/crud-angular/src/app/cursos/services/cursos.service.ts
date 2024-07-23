@@ -20,7 +20,11 @@ export class CursosService {
       )
   }
 
-  save(curso: Partial<Curso>): Observable<Curso> {
+  buscarPorId(id: string): Observable<Curso> {
+    return this.http.get<Curso>(`${this.API}/${id}`)
+  }
+
+  salvar(curso: Partial<Curso>): Observable<Curso> {
     return this.http.post<Curso>(this.API, curso)
   }
 }

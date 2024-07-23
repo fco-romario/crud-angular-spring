@@ -6,6 +6,7 @@
       *ngIf="cursos$ | async as cursos; else exibeSpinner"
       [cursos]="cursos"
       (add)="onAdd()"
+      (edit)="onEditar($event)"
     ></app-curso-lista>
 
     <ng-template #exibeSpinner>
