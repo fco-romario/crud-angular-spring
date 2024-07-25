@@ -32,11 +32,13 @@ public class CursoController {
 	
 	@GetMapping()
 	public List<Curso> listar() {
+		//return cursoRepository.findAll();
 		return cursoRepository.findAllByStatus("Ativo");
 	}
 	
 	@GetMapping("{id}")
 	public ResponseEntity<Curso> buscarPorId(@PathVariable @NotNull @Positive Long id) {
+		//return cursoRepository.findById(id);
 		return cursoRepository.findByIdAndStatus(id, "Ativo")
 				.map(curso -> ResponseEntity.ok().body(curso))
 				.orElse(ResponseEntity.notFound().build());
@@ -51,6 +53,7 @@ public class CursoController {
 	
 	@PutMapping("{id}")
 	public ResponseEntity<Curso> atualizar(@PathVariable() @NotNull @Positive Long id, @RequestBody @Valid Curso curso){
+		//return cursoRepository.findById(id)
 		return cursoRepository.findByIdAndStatus(id, "Ativo")
 				.map(cursoParaAtualizar -> {
 					cursoParaAtualizar.setName(curso.getName());
@@ -64,6 +67,7 @@ public class CursoController {
 	
 	@DeleteMapping("{id}")
 	public ResponseEntity<Void> deletar(@PathVariable @NotNull @Positive Long id) {
+		//return cursoRepository.findById(id);
 		return cursoRepository.findByIdAndStatus(id, "Ativo")
 				.map(curso -> {
 					curso.setStatus("Inativo");
