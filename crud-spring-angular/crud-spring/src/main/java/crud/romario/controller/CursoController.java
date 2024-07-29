@@ -16,66 +16,56 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import crud.romario.model.Curso;
-import crud.romario.repository.CursoRepository;
+import crud.romario.service.CursoService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
-import lombok.AllArgsConstructor;
 
 @Validated
 @RestController
 @RequestMapping("/api/cursos")
-@AllArgsConstructor
 public class CursoController {
+
+	private final CursoService cursoService;
 	
-	private final CursoRepository cursoRepository;
+	public CursoController(CursoService cursoService) {
+		this.cursoService = cursoService;
+	}
 	
 	@GetMapping()
 	public List<Curso> listar() {
 		//return cursoRepository.findAll();
-		return cursoRepository.findAllByStatus("Ativo");
+		return cursoService.list();
 	}
-	
-	@GetMapping("{id}")
+
+	@GetMapping("/{id}")
 	public ResponseEntity<Curso> buscarPorId(@PathVariable @NotNull @Positive Long id) {
-		//return cursoRepository.findById(id);
-		return cursoRepository.findByIdAndStatus(id, "Ativo")
+		// return cursoRepository.findById(id);
+		return cursoService.buscarPorId(id)
 				.map(curso -> ResponseEntity.ok().body(curso))
 				.orElse(ResponseEntity.notFound().build());
 	}
-	
+
 	@PostMapping()
 	@ResponseStatus(code = HttpStatus.CREATED)
-	public Curso Salvar(@RequestBody @Valid Curso curso){
-		//System.out.println(curso);
-		return cursoRepository.save(curso);
+	public Curso Salvar(@RequestBody @Valid Curso curso) {
+		return cursoService.salvar(curso);
 	}
-	
-	@PutMapping("{id}")
-	public ResponseEntity<Curso> atualizar(@PathVariable() @NotNull @Positive Long id, @RequestBody @Valid Curso curso){
-		//return cursoRepository.findById(id)
-		return cursoRepository.findByIdAndStatus(id, "Ativo")
-				.map(cursoParaAtualizar -> {
-					cursoParaAtualizar.setName(curso.getName());
-					cursoParaAtualizar.setCategory(curso.getCategory());
-					Curso cursoAtualizado = cursoRepository.save(cursoParaAtualizar);
-					
-					return ResponseEntity.ok().body(cursoAtualizado);
-				})
+
+	@PutMapping("/{id}")
+	public ResponseEntity<Curso> atualizar(@PathVariable() @NotNull @Positive Long id,
+			@RequestBody @Valid Curso curso) {
+		return cursoService.atualizar(id, curso)
+				.map(cursoAtualizado -> ResponseEntity.ok().body(cursoAtualizado))
 				.orElse(ResponseEntity.notFound().build());
 	}
-	
-	@DeleteMapping("{id}")
+
+	@DeleteMapping("/{id}")
 	public ResponseEntity<Void> deletar(@PathVariable @NotNull @Positive Long id) {
-		//return cursoRepository.findById(id);
-		return cursoRepository.findByIdAndStatus(id, "Ativo")
-				.map(curso -> {
-					curso.setStatus("Inativo");
-					//cursoRepository.deleteById(id);
-					cursoRepository.save(curso);
-					return ResponseEntity.noContent().<Void>build();
-				})
-				.orElse(ResponseEntity.notFound().build());
+		if(cursoService.deletar(id)) {
+			return ResponseEntity.noContent().<Void>build(); 
+		}
+		return ResponseEntity.notFound().build();
 	}
-	
+
 }
