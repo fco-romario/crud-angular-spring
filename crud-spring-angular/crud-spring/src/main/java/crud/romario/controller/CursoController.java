@@ -3,7 +3,6 @@ package crud.romario.controller;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -34,16 +33,12 @@ public class CursoController {
 	
 	@GetMapping()
 	public List<Curso> listar() {
-		//return cursoRepository.findAll();
 		return cursoService.list();
 	}
 
 	@GetMapping("/{id}")
-	public ResponseEntity<Curso> buscarPorId(@PathVariable @NotNull @Positive Long id) {
-		// return cursoRepository.findById(id);
-		return cursoService.buscarPorId(id)
-				.map(curso -> ResponseEntity.ok().body(curso))
-				.orElse(ResponseEntity.notFound().build());
+	public Curso buscarPorId(@PathVariable @NotNull @Positive Long id) {
+		return cursoService.buscarPorId(id);
 	}
 
 	@PostMapping()
@@ -53,19 +48,16 @@ public class CursoController {
 	}
 
 	@PutMapping("/{id}")
-	public ResponseEntity<Curso> atualizar(@PathVariable() @NotNull @Positive Long id,
+	public Curso atualizar(@PathVariable() @NotNull @Positive Long id,
 			@RequestBody @Valid Curso curso) {
-		return cursoService.atualizar(id, curso)
-				.map(cursoAtualizado -> ResponseEntity.ok().body(cursoAtualizado))
-				.orElse(ResponseEntity.notFound().build());
+		return cursoService.atualizar(id, curso);
 	}
-
+	
 	@DeleteMapping("/{id}")
-	public ResponseEntity<Void> deletar(@PathVariable @NotNull @Positive Long id) {
-		if(cursoService.deletar(id)) {
-			return ResponseEntity.noContent().<Void>build(); 
-		}
-		return ResponseEntity.notFound().build();
+	@ResponseStatus(code = HttpStatus.NO_CONTENT)
+	public void deletar(@PathVariable @NotNull @Positive Long id) {
+		cursoService.deletar(id);
+		
 	}
 
 }
