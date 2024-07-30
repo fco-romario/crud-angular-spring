@@ -33,7 +33,7 @@ public class CursoController {
 	
 	@GetMapping()
 	public List<Curso> listar() {
-		return cursoService.list();
+☻		return cursoService.list();
 	}
 
 	@GetMapping("/{id}")
