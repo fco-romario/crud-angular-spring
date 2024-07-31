@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import crud.romario.model.Curso;
+import crud.romario.dto.CursoDTO;
 import crud.romario.service.CursoService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
@@ -32,24 +32,24 @@ public class CursoController {
 	}
 	
 	@GetMapping()
-	public List<Curso> listar() {
-☻		return cursoService.list();
+	public List<CursoDTO> listar() {
+		return cursoService.list();
 	}
 
 	@GetMapping("/{id}")
-	public Curso buscarPorId(@PathVariable @NotNull @Positive Long id) {
+	public CursoDTO buscarPorId(@PathVariable @NotNull @Positive Long id) {
 		return cursoService.buscarPorId(id);
 	}
 
 	@PostMapping()
 	@ResponseStatus(code = HttpStatus.CREATED)
-	public Curso Salvar(@RequestBody @Valid Curso curso) {
+	public CursoDTO Salvar(@RequestBody @Valid CursoDTO curso) {
 		return cursoService.salvar(curso);
 	}
 
 	@PutMapping("/{id}")
-	public Curso atualizar(@PathVariable() @NotNull @Positive Long id,
-			@RequestBody @Valid Curso curso) {
+	public CursoDTO atualizar(@PathVariable() @NotNull @Positive Long id,
+			@NotNull @RequestBody @Valid CursoDTO curso) {
 		return cursoService.atualizar(id, curso);
 	}
 	
