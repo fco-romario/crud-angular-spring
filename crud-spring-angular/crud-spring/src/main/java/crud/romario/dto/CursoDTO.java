@@ -1,6 +1,5 @@
 package crud.romario.dto;
 
-import org.hibernate.validator.constraints.Length;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

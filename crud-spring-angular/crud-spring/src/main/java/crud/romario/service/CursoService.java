@@ -8,6 +8,7 @@ import org.springframework.validation.annotation.Validated;
 
 import crud.romario.dto.CursoDTO;
 import crud.romario.dto.mapper.CursoMapper;
+import crud.romario.enums.Status;
 import crud.romario.exception.RecordNotFoundException;
 import crud.romario.repository.CursoRepository;
 import jakarta.validation.Valid;
@@ -27,7 +28,7 @@ public class CursoService {
 	}
 	
 	public List<CursoDTO> list() {
-		return cursoRepository.findAllByStatus("Ativo")
+		return cursoRepository.findAllByStatus(Status.ATIVO)
 				.stream()
 				.map(curso -> cursoMapper.toDTO(curso))
 				.collect(Collectors.toList());
@@ -35,7 +36,7 @@ public class CursoService {
 	}
 	
 	public CursoDTO buscarPorId(@NotNull @Positive Long id) {
-		return cursoRepository.findByIdAndStatus(id, "Ativo")
+		return cursoRepository.findByIdAndStatus(id, Status.ATIVO)
 				.map(curso -> cursoMapper.toDTO(curso))
 				.orElseThrow(() -> new RecordNotFoundException(id));
 	}
@@ -45,19 +46,19 @@ public class CursoService {
 	}
 	
 	public CursoDTO atualizar(@NotNull @Positive Long id, @Valid @NotNull CursoDTO curso) {
-		return cursoRepository.findByIdAndStatus(id, "Ativo")
+		return cursoRepository.findByIdAndStatus(id, Status.ATIVO)
 				.map(cursoParaAtualizar -> {
 					cursoParaAtualizar.setName(curso.name());
-					cursoParaAtualizar.setCategory(curso.category());
+					cursoParaAtualizar.setCategory(cursoMapper.convertCategoryValue(curso.category()));
 					return cursoMapper.toDTO(cursoRepository.save(cursoParaAtualizar));
 				})
 				.orElseThrow(() -> new RecordNotFoundException(id));
 	}
 	
 	public void deletar(@NotNull @Positive Long id) {
-		cursoRepository.findByIdAndStatus(id, "Ativo")
+		cursoRepository.findByIdAndStatus(id, Status.ATIVO)
 			.map(curso -> {
-				curso.setStatus("Inativo");
+				curso.setStatus(Status.INATIVO);
 				return cursoRepository.save(curso);
 			})
 			.orElseThrow(() -> new RecordNotFoundException(id));
