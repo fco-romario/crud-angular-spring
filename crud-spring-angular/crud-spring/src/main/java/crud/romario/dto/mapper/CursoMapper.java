@@ -1,7 +1,11 @@
 package crud.romario.dto.mapper;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.stereotype.Component;
 
+import crud.romario.dto.AulaDTO;
 import crud.romario.dto.CursoDTO;
 import crud.romario.enums.Category;
 import crud.romario.model.Curso;
@@ -13,8 +17,13 @@ public class CursoMapper {
 		if(curso == null) {
 			return null;
 		}
+		List<AulaDTO> aulas = curso.getAulas()
+				.stream()
+				.map(aula -> new AulaDTO(aula.getId(), aula.getName(), aula.getYoutubeUrl()))
+				.collect(Collectors.toList());
+				
 		return new CursoDTO(curso.getId(), curso.getName(), curso.getCategory().getDescricao(),
-				curso.getAulas());
+				aulas);
 	}
 	
 	public Curso toEntity(CursoDTO cursoDTO){
