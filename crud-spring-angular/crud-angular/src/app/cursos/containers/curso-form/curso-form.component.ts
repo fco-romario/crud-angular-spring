@@ -34,7 +34,6 @@ export class CursoFormComponent implements OnInit {
       name: curso.name,
       category: curso.category
     })
-    console.log(this.form.value);
 
   }
 

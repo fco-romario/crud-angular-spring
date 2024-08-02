@@ -18,6 +18,6 @@ export class CursoResolver implements Resolve<Curso> {
       return this.service.buscarPorId(route.params['id']);
 
     }
-    return of({_id: '', name: '', category: ''});
+    return of({_id: '', name: '', category: '', aulas: []});
   }
 }
