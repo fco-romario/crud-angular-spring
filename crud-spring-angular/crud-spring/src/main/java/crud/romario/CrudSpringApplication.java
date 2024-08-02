@@ -1,5 +1,7 @@
 package crud.romario;
 
+import java.util.Arrays;
+
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -7,7 +9,7 @@ import org.springframework.context.annotation.Bean;
 
 import crud.romario.enums.Category;
 import crud.romario.model.Curso;
-import crud.romario.model.Licao;
+import crud.romario.model.Aula;
 import crud.romario.repository.CursoRepository;
 
 @SpringBootApplication
@@ -26,12 +28,17 @@ public class CrudSpringApplication {
 			c.setName("Angular com Spring");
 			c.setCategory(Category.FRONT_END);
 			
-			Licao l = new Licao();
-			l.setName("Introdução");
-			l.setYoutubeUrl("i99mJpBNEJM");
-			l.setCurso(c);
+			Aula l1 = new Aula();
+			l1.setName("Introdução");
+			l1.setYoutubeUrl("i99mJpBNEJM");
+			l1.setCurso(c);
 			
-			c.getLicoes().add(l);
+			Aula l2 = new Aula();
+			l2.setName("Angular");
+			l2.setYoutubeUrl("i22mJpBNEKO");
+			l2.setCurso(c);
+			
+			c.getAulas().addAll(Arrays.asList(l1, l2));
 			
 			cursoRepository.save(c);
 		};

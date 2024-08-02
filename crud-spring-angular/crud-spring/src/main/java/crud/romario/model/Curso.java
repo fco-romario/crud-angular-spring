@@ -3,8 +3,6 @@ package crud.romario.model;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.hibernate.annotations.Where;
-
 //import org.hibernate.annotations.SQLDelete;
 //import org.hibernate.annotations.SQLRestriction;
 
@@ -21,7 +19,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -56,6 +53,6 @@ public class Curso {
 	private Status status = Status.ATIVO;
 
 	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "curso")
-	private List<Licao> licoes = new ArrayList<>();
+	private List<Aula> aulas = new ArrayList<>();
 
 }

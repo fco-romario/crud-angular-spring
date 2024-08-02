@@ -1,6 +1,7 @@
 package crud.romario.model;
 
-import org.hibernate.annotations.ManyToAny;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -14,7 +15,7 @@ import lombok.Data;
 
 @Data
 @Entity
-public class Licao {
+public class Aula {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,5 +29,6 @@ public class Licao {
 	
 	@ManyToOne(fetch = FetchType.LAZY, optional = false)
 	@JoinColumn(name = "curso_fk", nullable = false)
+	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	private Curso curso;
 }
