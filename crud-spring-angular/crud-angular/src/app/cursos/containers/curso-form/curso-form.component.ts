@@ -36,7 +36,7 @@ export class CursoFormComponent implements OnInit {
         _id: [curso._id],
         name: [curso.name, [Validators.required, Validators.minLength(5), Validators.maxLength(100)]],
         category: [ curso.category, [Validators.required]],
-        aulas: this.fb.array(this.obterAulas(curso))
+        aulas: this.fb.array(this.obterAulas(curso), Validators.required)
       })
 
       console.log("teste",this.form);
@@ -55,8 +55,8 @@ export class CursoFormComponent implements OnInit {
   private criarAulas(aulas: Aula = { id: '', name: '', youtubeUrl: ''}) {
     return this.fb.group({
       id: [aulas.id],
-      name: [aulas.name],
-      youtubeUrl: [aulas.youtubeUrl]
+      name: [aulas.name, [Validators.required, Validators.minLength(5), Validators.maxLength(100)]],
+      youtubeUrl: [aulas.youtubeUrl, [Validators.required, Validators.minLength(10), Validators.maxLength(11)]]
     })
   }
 
@@ -75,13 +75,17 @@ export class CursoFormComponent implements OnInit {
   }
 
   aoSubmeter(): void {
-    this.service.salvar(this.form.value)
-      .subscribe(resposta => {
-        this.onSucesso();
-    }, error => {
-      console.log(error);
-      this.onErro();
-    });
+    if(this.form.valid) {
+      this.service.salvar(this.form.value)
+        .subscribe(resposta => {
+          this.onSucesso();
+      }, error => {
+        console.log(error);
+        this.onErro();
+      });
+    } else {
+      alert("form inválido")
+    }
   }
 
   aoCancelar(): void {
@@ -114,5 +118,10 @@ export class CursoFormComponent implements OnInit {
       return `Tamanho máximo precisa ser de ${tamanhoMinimo} caracteres`;
     }
     return 'Campo inválido';
+  }
+
+  public ehFormArrayObrigatorio() {
+    const aulas = this.form.get("aulas") as UntypedFormArray;
+    return !aulas.valid && aulas.hasError('required') && aulas.touched;
   }
 }
