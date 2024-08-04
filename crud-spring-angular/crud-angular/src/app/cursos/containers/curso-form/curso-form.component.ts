@@ -64,6 +64,16 @@ export class CursoFormComponent implements OnInit {
     return (<UntypedFormArray>this.form.get('aulas'))?.controls;
   }
 
+  public addNovaAula() {
+    const aulas = this.form.get('aulas') as UntypedFormArray;
+    aulas.push(this.criarAulas());
+  }
+
+  public deletarAula(index: number) {
+    const aulas = this.form.get('aulas') as UntypedFormArray;
+    aulas.removeAt(index);
+  }
+
   aoSubmeter(): void {
     this.service.salvar(this.form.value)
       .subscribe(resposta => {
