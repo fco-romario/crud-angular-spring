@@ -6,6 +6,7 @@ import { CursosService } from '../../services/cursos.service';
 import { ActivatedRoute } from '@angular/router';
 import { Curso } from '../../model/curso';
 import { Aula } from '../../model/aula';
+import { FormUtilsService } from 'src/app/shared/form/form-utils.service';
 
 @Component({
   selector: 'app-curso-form',
@@ -15,32 +16,24 @@ import { Aula } from '../../model/aula';
 export class CursoFormComponent implements OnInit {
   form!: FormGroup;
 
-
-
   constructor(
     private fb: NonNullableFormBuilder,
     private service: CursosService,
     private snackBar: MatSnackBar,
     private location: Location,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    public formUtils: FormUtilsService
   ) {}
 
   ngOnInit(): void {
     const curso: Curso = this.route.snapshot.data['curso'];
-    // this.form.patchValue({
-    //   _id: curso._id,
-    //   name: curso.name,
-    //   category: curso.category
-    // })
+
     this.form = this.fb.group({
         _id: [curso._id],
         name: [curso.name, [Validators.required, Validators.minLength(5), Validators.maxLength(100)]],
         category: [ curso.category, [Validators.required]],
         aulas: this.fb.array(this.obterAulas(curso), Validators.required)
-      })
-
-      console.log("teste",this.form);
-
+      });
   }
   private obterAulas(curso: Curso) {
     const aulas = [];
@@ -79,10 +72,8 @@ export class CursoFormComponent implements OnInit {
       this.service.salvar(this.form.value)
         .subscribe(resposta => {
           this.onSucesso();
-      }, error => {
-        console.log(error);
-        this.onErro();
-      });
+      }, error => this.onErro());
+
     } else {
       alert("form inválido")
     }
@@ -101,27 +92,4 @@ export class CursoFormComponent implements OnInit {
     this.snackBar.open('Erro ao salvar curso.', '', { duration: 5000});
   }
 
-  exibeMsgErro(nomeDoCampo: string): string {
-    const campo = this.form.get(nomeDoCampo);
-
-    if(campo?.hasError('required')) {
-      return 'Campo obrigatório.'
-    }
-
-    if(campo?.hasError('minlength')) {
-      const tamanhoMinimo = campo.errors ? campo.errors['minlength']['requiredLength'] : 5;
-      return `Tamanho mínimo precisa ser de ${tamanhoMinimo} caracteres`;
-    }
-
-    if(campo?.hasError('maxlength')) {
-      const tamanhoMinimo = campo.errors ? campo.errors['maxlength']['requiredLength'] : 100;
-      return `Tamanho máximo precisa ser de ${tamanhoMinimo} caracteres`;
-    }
-    return 'Campo inválido';
-  }
-
-  public ehFormArrayObrigatorio() {
-    const aulas = this.form.get("aulas") as UntypedFormArray;
-    return !aulas.valid && aulas.hasError('required') && aulas.touched;
-  }
 }
