@@ -10,6 +10,7 @@ import crud.romario.dto.CursoDTO;
 import crud.romario.dto.mapper.CursoMapper;
 import crud.romario.enums.Status;
 import crud.romario.exception.RecordNotFoundException;
+import crud.romario.model.Curso;
 import crud.romario.repository.CursoRepository;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
@@ -45,14 +46,17 @@ public class CursoService {
 		return cursoMapper.toDTO(cursoRepository.save(cursoMapper.toEntity(curso)));
 	}
 	
-	public CursoDTO atualizar(@NotNull @Positive Long id, @Valid @NotNull CursoDTO curso) {
+	public CursoDTO atualizar(@NotNull @Positive Long id, @Valid @NotNull CursoDTO cursoDTO) {
 		return cursoRepository.findByIdAndStatus(id, Status.ATIVO)
 				.map(cursoParaAtualizar -> {
-					cursoParaAtualizar.setName(curso.name());
-					cursoParaAtualizar.setCategory(cursoMapper.convertCategoryValue(curso.category()));
+					Curso curso = cursoMapper.toEntity(cursoDTO);
+					cursoParaAtualizar.setName(cursoDTO.name());
+					cursoParaAtualizar.setCategory(cursoMapper.convertCategoryValue(cursoDTO.category()));
+					//cursoParaAtualizar.setAulas(curso.getAulas());
+					cursoParaAtualizar.getAulas().clear();
+					curso.getAulas().forEach(aula -> cursoParaAtualizar.getAulas().add(aula));
 					return cursoMapper.toDTO(cursoRepository.save(cursoParaAtualizar));
-				})
-				.orElseThrow(() -> new RecordNotFoundException(id));
+				}).orElseThrow(() -> new RecordNotFoundException(id));
 	}
 	
 	public void deletar(@NotNull @Positive Long id) {

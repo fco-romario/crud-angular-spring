@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 import crud.romario.dto.AulaDTO;
 import crud.romario.dto.CursoDTO;
 import crud.romario.enums.Category;
+import crud.romario.model.Aula;
 import crud.romario.model.Curso;
 
 @Component
@@ -37,6 +38,17 @@ public class CursoMapper {
 		}
 		curso.setName(cursoDTO.name());
 		curso.setCategory(convertCategoryValue(cursoDTO.category()));
+		
+		List<Aula> aulas = cursoDTO.aulas().stream().map(aulaDTO -> {
+            var aula = new Aula();
+            aula.setId(aulaDTO.id());
+            aula.setName(aulaDTO.name());
+            aula.setYoutubeUrl(aulaDTO.youtubeUrl());
+            aula.setCurso(curso);
+            return aula;
+        }).collect(Collectors.toList());
+		curso.setAulas(aulas);
+		
 		return curso;
 	}
 	
