@@ -43,7 +43,7 @@ public class CursoController {
 
 	@PostMapping()
 	@ResponseStatus(code = HttpStatus.CREATED)
-	public CursoDTO Salvar(@RequestBody @Valid CursoDTO curso) {
+	public CursoDTO salvar(@RequestBody @Valid @NotNull CursoDTO curso) {
 		return cursoService.salvar(curso);
 	}
 
