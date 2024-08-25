@@ -1,19 +1,31 @@
 <mat-card>
   <mat-toolbar color="primary"> Cursos Disponíveis </mat-toolbar>
 
-  <div class="column-flex mat-elevation-z8">
+  <div
+    *ngIf="cursos$ | async as cursos; else exibeSpinner"
+    class="column-flex mat-elevation-z8">
     <app-curso-lista
-      *ngIf="cursos$ | async as cursos; else exibeSpinner"
-      [cursos]="cursos"
+      [cursos]="cursos.cursos"
       (add)="aoAdd()"
       (edit)="aoEditar($event)"
       (remover)="aoRemover($event)"
     ></app-curso-lista>
 
-    <ng-template #exibeSpinner>
-      <div class="carregando-spinner">
-        <mat-spinner></mat-spinner>
-      </div>
-    </ng-template>
+    <mat-paginator
+      [pageSizeOptions]="[5, 10, 15]"
+      showFirstLastButtons
+      [pageIndex]="pageIndex"
+      [pageSize]="pageSize"
+      [length]="cursos.totalElements"
+      (page)="recarregarCursos($event)"
+      aria-label="Selecione uma página de cursos"
+    >
+    </mat-paginator>
   </div>
+
+  <ng-template #exibeSpinner>
+    <div class="carregando-spinner">
+      <mat-spinner></mat-spinner>
+    </div>
+  </ng-template>
 </mat-card>

@@ -1,12 +1,14 @@
+import { Curso } from './../../model/curso';
 import { CursosService } from '../../services/cursos.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Observable, catchError, of } from 'rxjs';
-import { Curso } from 'src/app/cursos/model/curso';
+import { Observable, catchError, of, tap } from 'rxjs';
 import { ConfirmacaoDialoagComponent } from 'src/app/shared/componentes/confirmacao-dialoag/confirmacao-dialoag.component';
 import { ErrorDialogComponent } from 'src/app/shared/componentes/error-dialog/error-dialog.component';
+import { CursoPagina } from '../../model/cursoPagina';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-cursos',
@@ -14,7 +16,11 @@ import { ErrorDialogComponent } from 'src/app/shared/componentes/error-dialog/er
   styleUrls: ['./cursos.component.scss']
 })
 export class CursosComponent implements OnInit {
-  cursos$: Observable<Curso[]> | null = null;
+  cursos$: Observable<CursoPagina> | null = null;
+
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  pageIndex = 0;
+  pageSize = 10;
 
   constructor(
     private cursosService: CursosService,
@@ -30,11 +36,16 @@ export class CursosComponent implements OnInit {
     this.recarregarCursos();
   }
 
-  recarregarCursos(): void {
-    this.cursos$ = this.cursosService.list().pipe(
+  recarregarCursos(pageEvent: PageEvent = { length: 0, pageIndex: 0, pageSize: 10 }): void {
+    this.cursos$ = this.cursosService.list(pageEvent.pageIndex, pageEvent.pageSize)
+    .pipe(
+      tap(() => {
+        this.pageIndex = pageEvent.pageIndex;
+        this.pageSize = pageEvent.pageSize;
+      }),
       catchError(erro => {
         this.onError('Erro ao tentar carregar cursos');
-        return of([]);
+        return of({cursos: [], totalElements: 0, totalPages: 0});
       })
     );
   }
