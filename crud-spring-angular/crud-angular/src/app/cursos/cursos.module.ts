@@ -4,22 +4,20 @@ import { NgModule } from '@angular/core';
 
 import { CursosRoutingModule } from './cursos-routing.module';
 import { CursosComponent } from './containers/cursos/cursos.component';
-import { AppMaterialModule } from '../shared/app-material/app-material.module';
-import { SharedModule } from '../shared/shared.module';
+
+
 import { ReactiveFormsModule } from '@angular/forms';
 import { CursoFormComponent } from './containers/curso-form/curso-form.component';
 
 
 @NgModule({
     imports: [
-        CommonModule,
-        CursosRoutingModule,
-        AppMaterialModule,
-        SharedModule,
-        ReactiveFormsModule,
-        CursosComponent,
-        CursoFormComponent,
-        CursoListaComponent,
-    ]
+    CommonModule,
+    CursosRoutingModule,
+    ReactiveFormsModule,
+    CursosComponent,
+    CursoFormComponent,
+    CursoListaComponent,
+]
 })
 export class CursosModule { }
