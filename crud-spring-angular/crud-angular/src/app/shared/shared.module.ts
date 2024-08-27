@@ -6,20 +6,17 @@ import { GategoriaPipe } from './pipes/gategoria.pipe';
 import { ConfirmacaoDialoagComponent } from './componentes/confirmacao-dialoag/confirmacao-dialoag.component';
 
 @NgModule({
-  declarations: [
-    ErrorDialogComponent,
-    GategoriaPipe,
-    ConfirmacaoDialoagComponent
-  ],
-  imports: [
-    CommonModule,
-    AppMaterialModule,
-
-  ],
-  exports: [
-    ErrorDialogComponent,
-    GategoriaPipe,
-    ConfirmacaoDialoagComponent
-  ]
+    imports: [
+        CommonModule,
+        AppMaterialModule,
+        ErrorDialogComponent,
+        GategoriaPipe,
+        ConfirmacaoDialoagComponent,
+    ],
+    exports: [
+        ErrorDialogComponent,
+        GategoriaPipe,
+        ConfirmacaoDialoagComponent
+    ]
 })
 export class SharedModule { }

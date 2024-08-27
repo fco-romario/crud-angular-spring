@@ -11,17 +11,15 @@ import { CursoFormComponent } from './containers/curso-form/curso-form.component
 
 
 @NgModule({
-  declarations: [
-    CursosComponent,
-    CursoFormComponent,
-    CursoListaComponent
-  ],
-  imports: [
-    CommonModule,
-    CursosRoutingModule,
-    AppMaterialModule,
-    SharedModule,
-    ReactiveFormsModule,
-  ]
+    imports: [
+        CommonModule,
+        CursosRoutingModule,
+        AppMaterialModule,
+        SharedModule,
+        ReactiveFormsModule,
+        CursosComponent,
+        CursoFormComponent,
+        CursoListaComponent,
+    ]
 })
 export class CursosModule { }

@@ -9,11 +9,18 @@ import { ConfirmacaoDialoagComponent } from 'src/app/shared/componentes/confirma
 import { ErrorDialogComponent } from 'src/app/shared/componentes/error-dialog/error-dialog.component';
 import { CursoPagina } from '../../model/cursoPagina';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
+import { CursoListaComponent } from '../../components/curso-lista/curso-lista.component';
+import { NgIf, AsyncPipe } from '@angular/common';
+import { MatToolbar } from '@angular/material/toolbar';
+import { MatCard } from '@angular/material/card';
 
 @Component({
-  selector: 'app-cursos',
-  templateUrl: './cursos.component.html',
-  styleUrls: ['./cursos.component.scss']
+    selector: 'app-cursos',
+    templateUrl: './cursos.component.html',
+    styleUrls: ['./cursos.component.scss'],
+    standalone: true,
+    imports: [MatCard, MatToolbar, NgIf, CursoListaComponent, MatPaginator, MatProgressSpinner, AsyncPipe]
 })
 export class CursosComponent implements OnInit {
   cursos$: Observable<CursoPagina> | null = null;
