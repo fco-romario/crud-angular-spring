@@ -3,6 +3,7 @@ package crud.romario.service;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -34,7 +35,9 @@ public class CursoService {
 	}
 	
 	public CursoPaginaDTO list(@PositiveOrZero int page,@Positive @Max(100) int pageSize) {
-		Page<Curso> paginaCurso = cursoRepository.findAll(PageRequest.of(page, pageSize));
+		Pageable pageable = PageRequest.of(page, pageSize);
+		
+		Page<Curso> paginaCurso = cursoRepository.findAllByStatus(Status.ATIVO, pageable);
 		List<CursoDTO> cursos = paginaCurso.get()
 				.map(curso -> cursoMapper.toDTO(curso))
 				.collect(Collectors.toList());
