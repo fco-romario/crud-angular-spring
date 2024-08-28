@@ -11,7 +11,7 @@ import { CursoPagina } from '../../model/cursoPagina';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
 import { CursoListaComponent } from '../../components/curso-lista/curso-lista.component';
-import { NgIf, AsyncPipe } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { MatToolbar } from '@angular/material/toolbar';
 import { MatCard } from '@angular/material/card';
 
@@ -20,7 +20,7 @@ import { MatCard } from '@angular/material/card';
     templateUrl: './cursos.component.html',
     styleUrls: ['./cursos.component.scss'],
     standalone: true,
-    imports: [MatCard, MatToolbar, NgIf, CursoListaComponent, MatPaginator, MatProgressSpinner, AsyncPipe]
+    imports: [MatCard, MatToolbar, CursoListaComponent, MatPaginator, MatProgressSpinner, AsyncPipe]
 })
 export class CursosComponent implements OnInit {
   cursos$: Observable<CursoPagina> | null = null;
